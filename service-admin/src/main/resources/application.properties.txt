@@ -1,0 +1,28 @@
+spring.application.name=b2c-services-admin
+server.port=5011
+
+spring.cloud.config.enabled = false
+
+spring.cloud.consul.host=localhost
+spring.cloud.consul.port=8500
+#spring.cloud.consul.discovery.tags=management.context-path=/foo, health.path=/ping, user.name=user, user.password=password
+#设置是否需要注册到 consul 中
+spring.cloud.consul.discovery.register=true
+#注册到consul的服务名称
+spring.cloud.consul.discovery.serviceName=b2c-services-admin
+spring.cloud.consul.discovery.instanceId=b2cservicesadmin
+
+#spring.boot.admin.discovery.ignored-services=consul
+
+#management.server.servlet.context-path=/b2c-services-admin
+
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+
+management.endpoints.web.path-mapping.health="/ping"
+
+spring.profiles=secure
+#spring.profiles=insecure
+
+spring.security.user.name=admin
+spring.security.user.password=123456

@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: b2c-cache-service
+  cloud:
+    config:
+      enabled: false
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}:${random.value}
+        register: true
+  zipkin:
+    base-url: http://localhost:9411
+    enabled: true
+
+  sleuth:
+    sampler:
+      probability: 1.0
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+feign:
+  hystrix:
+    enabled: true
+
+server:
+  port: 8091
+

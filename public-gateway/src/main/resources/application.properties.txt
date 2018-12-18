@@ -1,0 +1,23 @@
+spring.application.name=b2c-gateway
+spring.cloud.config.discovry.serviceId=b2c-gateway
+server.port=8288
+
+spring.cloud.consul.host=localhost
+spring.cloud.consul.port=8500
+#设置是否需要注册到 consul 中
+spring.cloud.consul.discovery.register=true
+#注册到consul的服务名称
+spring.cloud.consul.discovery.serviceName=b2c-gateway
+spring.cloud.consul.discovery.instanceId=b2cgateway
+
+zuul.routes.hello.path=/hi/**
+zuul.routes.hello.url=http://localhost:8288/hello
+
+#显示声明路由，注销则默认路由
+zuul.routes.cache-service.path=/cache/**
+zuul.routes.cache-service.serviceId=b2c-cache-service
+
+#eureka.client.serviceUrl.defaultZone=http://localhost:8082/eureka/
+
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always

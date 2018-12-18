@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: b2c-message-center
+  cloud:
+    config:
+      enabled: false
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}:${random.value}
+        register: true
+
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: clover
+#    password: 123456
+#    virtual-host: /
+#    publisher-confirms: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+#feign:
+#  hystrix:
+#    enabled: true
+
+server:
+  port: 9004
+
+
+
+
+

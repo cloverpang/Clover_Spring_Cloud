@@ -1,0 +1,120 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tinklabs.b2c.cloud.parameterservice.dao.mybatis.mapper.CompanyMapper">
+	<select id="get" parameterType="string" resultType="com.tinklabs.b2c.cloud.parameterservice.entity.Company">
+		<include refid="search_selectFields"/>
+		<include refid="search_fromClause"/>
+		WHERE a.companyId = #{id}
+	</select>
+
+	<select id="getByCode" parameterType="map" resultType="com.tinklabs.b2c.cloud.parameterservice.entity.Company">
+		<include refid="search_selectFields"/>
+		<include refid="search_fromClause"/>
+		WHERE a.companyCode = #{code} and a.operationCenterCode = #{center} limit 1
+	</select>
+
+	<select id="search" parameterType="map" resultType="com.tinklabs.b2c.cloud.parameterservice.entity.Company">
+		<include refid="search_selectFields"/>
+		<include refid="search_fromClause"/>
+		<include refid="Common.search_whereClause"/>
+		<include refid="Common.search_sortingClause"/>
+		<include refid="Common.search_pageClause"/>
+	</select>
+
+	<select id="searchFull" parameterType="map" resultType="com.tinklabs.b2c.cloud.parameterservice.entity.entensions.CompanyExtension">
+		<include refid="search_selectFullFields"/>
+		<include refid="search_fromClause"/>
+		<include refid="Common.search_whereClause"/>
+		<include refid="Common.search_sortingClause"/>
+		<include refid="Common.search_pageClause"/>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		SELECT COUNT(1)
+		<include refid="search_fromClause"/>
+		<include refid="Common.search_whereClause"/>
+	</select>
+
+	<sql id="search_selectFields">
+	SELECT
+   a.companyId as companyId,
+   a.companyCode as companyCode,
+   a.companyName as companyName,
+   a.operationCenterCode as operationCenterCode,
+   a.companyAddress as companyAddress,
+   a.companyLogoPath as companyLogoPath,
+   a.distributerId as distributerId,
+   a.distributerName as distributerName,
+   a.status as status,
+   a.joinTime as joinTime,
+   a.createTime as createTime
+	</sql>
+
+	<sql id="search_selectFullFields">
+		SELECT
+		a.companyId as companyId,
+		a.companyCode as companyCode,
+		a.companyName as companyName,
+		a.operationCenterCode as operationCenterCode,
+		a.companyAddress as companyAddress,
+		a.companyLogoPath as companyLogoPath,
+		a.distributerId as distributerId,
+		a.distributerName as distributerName,
+		a.status as status,
+		a.joinTime as joinTime,
+		a.createTime as createTime,
+		(select count(customerId) from awf_customer where companyId = a.companyId) as companyCustomerQuantity
+	</sql>
+
+	<sql id="search_fromClause">
+		FROM awf_company a
+	</sql>
+
+	<insert id="insert" parameterType="com.tinklabs.b2c.cloud.parameterservice.entity.Company">
+		INSERT INTO awf_company (
+		companyId,
+		companyCode,
+		companyName,
+		operationCenterCode,
+		companyAddress,
+		companyLogoPath,
+		status,
+		joinTime,
+		createTime,
+		distributerId,
+		distributerName
+		) VALUES (
+		#{companyId,jdbcType=VARCHAR},
+		#{companyCode,jdbcType=VARCHAR},
+		#{companyName,jdbcType=VARCHAR},
+		#{operationCenterCode,jdbcType=VARCHAR},
+		#{companyAddress,jdbcType=VARCHAR},
+		#{companyLogoPath,jdbcType=VARCHAR},
+		#{status,jdbcType=NUMERIC},
+		#{joinTime,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{distributerId,jdbcType=VARCHAR},
+		#{distributerName,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="string">
+		DELETE FROM awf_company WHERE companyId = #{id}
+	</delete>
+
+	<update id="update" parameterType="com.tinklabs.b2c.cloud.parameterservice.entity.Company">
+		UPDATE awf_company
+		SET
+		companyName = #{companyName,jdbcType=VARCHAR},
+		companyCode = #{companyCode,jdbcType=VARCHAR},
+		companyAddress = #{companyAddress,jdbcType=VARCHAR},
+		companyLogoPath = #{companyLogoPath,jdbcType=VARCHAR},
+		distributerId = #{distributerId,jdbcType=VARCHAR},
+		distributerName = #{distributerName,jdbcType=VARCHAR},
+		status = #{status,jdbcType=NUMERIC},
+		joinTime = #{joinTime,jdbcType=TIMESTAMP}
+		WHERE companyId = #{companyId}
+	</update>
+</mapper>

@@ -1,0 +1,84 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Common">
+	<sql id="search_whereClause">
+		<where>
+			<include refid="Common.search_whereClause_conditions"/>
+		</where>
+	</sql>
+
+	<sql id="search_whereClause_conditions">
+		<if test="conditions != null">
+			<foreach item="condition" collection="conditions" index="index" separator="and">
+				<choose>
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'eq'.toString() or condition.conditionExpression == '='.toString())">
+						<foreach item="value" collection="condition.conditionValueArr" open="(" separator="or" close=")">
+							${condition.conditionName} = #{value}
+						</foreach>
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'noteq'.toString() or condition.conditionExpression == '!='.toString())">
+						<foreach item="value" collection="condition.conditionValueArr" open="(" separator="and" close=")">
+							${condition.conditionName} != #{value}
+						</foreach>
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'between'.toString())">
+						${condition.conditionName} between
+						<foreach item="value" collection="condition.conditionValueArr" open="" separator="and" close="">
+							#{value}
+						</foreach>
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'gt'.toString())">
+						${condition.conditionName} &gt; #{condition.conditionValue}
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'lt'.toString())">
+						${condition.conditionName} &lt; #{condition.conditionValue}
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'gteq'.toString())">
+						${condition.conditionName} &gt;= #{condition.conditionValue}
+					</when>
+
+					<when test="condition.conditionExpression != null and (condition.conditionExpression == 'lteq'.toString())">
+						${condition.conditionName} &lt;= #{condition.conditionValue}
+					</when>
+
+					<when test="condition.conditionExpression != null and condition.conditionExpression == 'like'.toString() ">
+						<foreach item="conditonName" collection="condition.conditionNameArr" open="(" separator="or" close=")">
+							(${conditonName} is not null AND UPPER(${conditonName}) LIKE UPPER('%${condition.conditionValue}%'))
+						</foreach>
+					</when>
+
+					<otherwise>
+						${condition.conditionName} = #{condition.conditionValue}
+					</otherwise>
+
+				</choose>
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="search_sortingClause">
+		<if test="sortColumn == null or sortColumn == ''">
+			ORDER BY a.createTime
+		</if>
+		<if test="sortColumn != null and sortColumn != ''">
+			ORDER BY a.${sortColumn}
+		</if>
+		<if test="sortType != null and sortType == 'asc'">
+			ASC
+		</if>
+		<if test="sortType != null and sortType == 'desc'">
+			DESC
+		</if>
+	</sql>
+
+	<sql id="search_pageClause">
+		limit #{startRowNumber},#{pageSize}
+	</sql>
+</mapper>
