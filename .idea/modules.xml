@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cache-service/cache-service.iml" filepath="$PROJECT_DIR$/cache-service/cache-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/message-center/message-center.iml" filepath="$PROJECT_DIR$/message-center/message-center.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parameter-service/parameter-service.iml" filepath="$PROJECT_DIR$/parameter-service/parameter-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/public-gateway/public-gateway.iml" filepath="$PROJECT_DIR$/public-gateway/public-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-admin/service-admin.iml" filepath="$PROJECT_DIR$/service-admin/service-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/splyt-web-hook/splyt-web-hook.iml" filepath="$PROJECT_DIR$/splyt-web-hook/splyt-web-hook.iml" />
+    </modules>
+  </component>
+</project>

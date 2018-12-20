@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cache-service" />
+        <module name="config-server" />
+        <module name="message-center" />
+        <module name="parameter-service" />
+        <module name="public-gateway" />
+        <module name="service-admin" />
+        <module name="splyt-web-hook" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cache-service" target="1.8" />
+      <module name="config-server" target="1.8" />
+      <module name="demo" target="1.8" />
+      <module name="message-center" target="1.8" />
+      <module name="parameter-service" target="1.8" />
+      <module name="public-gateway" target="1.8" />
+      <module name="service-admin" target="1.8" />
+      <module name="splyt-web-hook" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cache-service" options="-parameters" />
+      <module name="config-server" options="-parameters" />
+      <module name="demo" options="-parameters" />
+      <module name="message-center" options="-parameters" />
+      <module name="parameter-service" options="-parameters" />
+      <module name="public-gateway" options="-parameters" />
+      <module name="service-admin" options="-parameters" />
+      <module name="splyt-web-hook" options="-parameters" />
+    </option>
+  </component>
+</project>

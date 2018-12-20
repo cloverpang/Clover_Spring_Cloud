@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/cache-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/demo" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/message-center" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parameter-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parameter-service/src/main/java/com/tinklabs/b2c/cloud/parameterservice/entity/Company.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/public-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/splyt-web-hook" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/splyt-web-hook/src/main/java/com/tinklabs/b2c/cloud/splytwebhook/entity/Company.java" charset="GBK" />
+  </component>
+</project>
