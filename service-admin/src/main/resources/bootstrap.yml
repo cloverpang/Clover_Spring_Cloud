@@ -1,4 +1,30 @@
+server:
+  port: 5011
+
 spring:
+  profiles: docker
+  application:
+    name: spring-boot-admin
+  cloud:
+    config:
+      enabled: false
+    consul:
+      host: service_admin_consul
+      port: 8500
+      discovery:
+        tags: management.context-path=/actuator, health.path=/health, user.name=admin, user.password=123456
+        instanceId: ${spring.application.name}:${random.value}
+        register: true
+        prefer-ip-address: true
+
+  boot:
+    admin:
+      discovery:
+        ignored-services: consul
+
+---
+spring:
+#  profiles: insecure
   application:
     name: spring-boot-admin
   cloud:
@@ -11,15 +37,17 @@ spring:
         tags: management.context-path=/actuator, health.path=/health, user.name=admin, user.password=123456
         instanceId: ${spring.application.name}:${random.value}
         register: true
+        prefer-ip-address: true
 
-  profiles:
-    active:
-      - secure
   boot:
     admin:
       discovery:
         ignored-services: consul
 
+  security:
+    user:
+      name: "admin"
+      password: "123456"
 
 management:
   server:
@@ -35,21 +63,8 @@ management:
     health:
       show-details: ALWAYS
 
----
-spring:
-  profiles: insecure
-
----
-spring:
-  profiles: secure
-  security:
-    user:
-      name: "admin"
-      password: "123456"
-
 feign:
   hystrix:
     enabled: true
 
-server:
-  port: 5011
+

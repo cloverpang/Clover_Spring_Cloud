@@ -1,0 +1,21 @@
+service_admin_consul:
+  image: consul
+  container_name: service_admin_consul
+  ports:
+#    - "8300:8300"
+#    - "8301:8301"
+#    - "8301:8301/udp"
+#    - "8302:8302"
+#    - "8302:8302/udp"
+    - "8401:8400"
+    - "8501:8500"
+    - "8601:8600"
+  command: agent -client=0.0.0.0 -node=admin_server -ui -join 10.0.3.120
+
+service-admin:
+  image: service-admin:0.0.1-SNAPSHOT
+  container_name: service_admin
+  ports:
+    - "5011:5011"
+  links:
+    - "service_admin_consul"

@@ -1,0 +1,23 @@
+zipkin:
+  container_name: public_gateway_zipkin
+  image: openzipkin/zipkin
+  ports:
+    - "9411:9411"
+
+public_gateway_consul:
+  container_name: public_gateway_consul
+  image: consul
+  ports:
+    - "8402:8400"
+    - "8502:8500"
+    - "8602:8600"
+  command: agent -client=0.0.0.0 -node=docker_public_gateway_1 -ui -join 10.0.3.120
+
+public-gateway:
+  container_name: public_gateway
+  image: public-gateway:0.0.1-SNAPSHOT
+  ports:
+    - "9000:9000"
+  links:
+    - "public_gateway_consul"
+    - "zipkin"

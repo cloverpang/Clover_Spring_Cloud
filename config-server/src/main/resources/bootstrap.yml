@@ -1,0 +1,42 @@
+server:
+  port: 8201
+
+spring:
+  application:
+    name: b2c-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/cloverpang/Clover_Spring_Cloud
+          search-paths: config-repo
+          username: qingzhoubaiyang@163.com
+          password: qingzhou82
+          label: master
+          clone-on-start: true
+    consul:
+      host: localhost
+      port: 8500
+      enabled: true
+      discovery:
+        instanceId: ${spring.application.name}:${random.value}
+        register: true
+        heartbeat:                                        #是否启用Consul的心跳检测
+          enabled: true
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: clover
+    password: 123456
+
+#关闭安全认证
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+

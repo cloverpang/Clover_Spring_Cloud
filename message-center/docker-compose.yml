@@ -1,0 +1,28 @@
+rabbitmq:
+  image: rabbitmq:management-alpine
+  container_name: b2c_rabbitmq
+  environment:
+    - RABBITMQ_DEFAULT_USER=guest
+    - RABBITMQ_DEFAULT_PASS=guest
+  restart: always
+  ports:
+    - "15673:15672"
+    - "5673:5672"
+
+message_center_consul:
+  container_name: message_center_consul
+  image: consul
+  ports:
+    - "8404:8400"
+    - "8504:8500"
+    - "8604:8600"
+  command: agent -client=0.0.0.0 -node=cache_service -ui -join 10.0.3.120
+
+message_center:
+  container_name: message_center
+  image: message-center:0.0.1-SNAPSHOT
+  ports:
+    - "9004:9004"
+  links:
+    - "message_center_consul"
+    - "rabbitmq"

@@ -40,7 +40,7 @@ public class ServiceAdminApplication {
         }
     }
 
-    @Profile("secure")
+    @Profile("docker")
     @Configuration
     public static class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
         private final String adminContextPath;

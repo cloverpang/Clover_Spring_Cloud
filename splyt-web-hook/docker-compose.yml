@@ -1,0 +1,23 @@
+zipkin:
+  container_name: spylt_web_hook_zipkin
+  image: openzipkin/zipkin
+  ports:
+    - "9415:9411"
+
+spylt_web_hook_consul:
+  container_name: spylt_web_hook_consul
+  image: consul
+  ports:
+    - "8405:8400"
+    - "8505:8500"
+    - "8605:8600"
+  command: agent -client=0.0.0.0 -node=spylt_web_hook -ui -join 10.0.3.120
+
+spylt_web_hook:
+  container_name: spylt_web_hook
+  image: splyt-web-hook:0.0.1-SNAPSHOT
+  ports:
+    - "9003:9003"
+  links:
+    - "spylt_web_hook_consul"
+    - "zipkin"

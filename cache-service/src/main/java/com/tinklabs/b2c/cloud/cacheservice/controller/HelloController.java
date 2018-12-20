@@ -1,6 +1,8 @@
 package com.tinklabs.b2c.cloud.cacheservice.controller;
 
 import com.tinklabs.b2c.cloud.cacheservice.utils.RedisUtil;
+import com.tinklabs.b2c.cloud.cacheservice.utils.SimpleRedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @SpringBootApplication
 public class HelloController {
 
-    @Value("${redis.host}")
+    @Value("${spring.redis.host}")
     private String redisHost;
 
-    @Value("${redis.port}")
+    @Value("${spring.redis.port}")
     private String redisPort;
+
+//    @Value("${spring.redis.password}")
+//    private String redisPassword;
+
+    @Autowired
+    private SimpleRedisUtil simpleRedisUtil;
 
     @RequestMapping(value={"/hello"}, method= RequestMethod.GET)
     @ResponseBody
@@ -39,7 +47,8 @@ public class HelloController {
     @RequestMapping(value={"/getCache"}, method= RequestMethod.GET)
     @ResponseBody
     public String getCache(@RequestParam(value = "key",required = false,defaultValue = "") String key){
-        String r = RedisUtil.get(key);
+        //String r = RedisUtil.get(key);
+        String r = simpleRedisUtil.get(key);
         return r;
     }
 
@@ -48,7 +57,8 @@ public class HelloController {
     public boolean postCache(@RequestParam(value = "value",required = true) String value,
                              @RequestParam(value = "key",required = true) String key){
         try {
-            RedisUtil.set(key, value, 36000);
+            //RedisUtil.set(key, value, 36000);
+            simpleRedisUtil.set(key, value, 36000);
             return true;
         }catch (Exception e){
             return false;
@@ -59,7 +69,8 @@ public class HelloController {
     @ResponseBody
     public boolean removeCache(@RequestParam(value = "key",required = true) String key){
         try {
-            long val = RedisUtil.del(key);
+            //long val = RedisUtil.del(key);
+            long val = simpleRedisUtil.del(key);
             if(val>0){
                 return true;
             }else{

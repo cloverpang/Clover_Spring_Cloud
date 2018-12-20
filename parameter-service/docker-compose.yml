@@ -1,0 +1,23 @@
+zipkin:
+  container_name: parameter_service_zipkin
+  image: openzipkin/zipkin
+  ports:
+    - "9413:9411"
+
+parameter_service_consul:
+  container_name: parameter_service_consul
+  image: consul
+  ports:
+    - "8403:8400"
+    - "8503:8500"
+    - "8603:8600"
+  command: agent -client=0.0.0.0 -node=parameter_service -ui -join 10.0.3.120
+
+parameter_service:
+  container_name: parameter_service
+  image: parameter-service:0.0.1-SNAPSHOT
+  ports:
+    - "9002:9002"
+  links:
+    - "parameter_service_consul"
+    - "zipkin"

@@ -1,0 +1,34 @@
+zipkin:
+  container_name: cache_service_zipkin
+  image: openzipkin/zipkin
+  ports:
+    - "9414:9411"
+
+db:
+#  container_name: b2c_redis_cluster
+  image: grokzen/redis-cluster:latest
+#  image: redis:alpine
+  hostname: redis
+  restart: always
+  ports:
+#    - '7000-7005:7000-7005'
+    - '6380:6379'
+
+cache_service_consul:
+  container_name: cache_service_consul
+  image: consul
+  ports:
+    - "8404:8400"
+    - "8504:8500"
+    - "8604:8600"
+  command: agent -client=0.0.0.0 -node=cache_service -ui -join 10.0.3.120
+
+cache_service:
+  container_name: cache_service
+  image: cache-service:0.0.1-SNAPSHOT
+  ports:
+    - "9001:9001"
+  links:
+    - "cache_service_consul"
+    - "zipkin"
+    - "db:redis"

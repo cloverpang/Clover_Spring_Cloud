@@ -1,0 +1,106 @@
+zipkin:
+  container_name: zipkin
+  image: openzipkin/zipkin
+  ports:
+    - "9411:9411"
+
+db:
+  #  container_name: b2c_redis_cluster
+  #  image: grokzen/redis-cluster:latest
+  image: redis:alpine
+  hostname: redis
+  restart: always
+  ports:
+    - '6380:6379'
+
+service_admin_consul:
+  image: consul
+  container_name: service_admin_consul
+  ports:
+    - "8401:8400"
+    - "8501:8500"
+    - "8601:8600"
+  command: agent -client=0.0.0.0 -node=admin_server -ui -join 10.0.3.120
+
+public_gateway_consul:
+  container_name: public_gateway_consul
+  image: consul
+  ports:
+    - "8402:8400"
+    - "8502:8500"
+    - "8602:8600"
+  command: agent -client=0.0.0.0 -node=public_gateway -ui -join 10.0.3.120
+
+cache_service_consul:
+  container_name: cache_service_consul
+  image: consul
+  ports:
+    - "8404:8400"
+    - "8504:8500"
+    - "8604:8600"
+  command: agent -client=0.0.0.0 -node=cache_service -ui -join 10.0.3.120
+
+parameter_service_consul:
+  container_name: parameter_service_consul
+  image: consul
+  ports:
+    - "8403:8400"
+    - "8503:8500"
+    - "8603:8600"
+  command: agent -client=0.0.0.0 -node=parameter_service -ui -join 10.0.3.120
+
+spylt_web_hook_consul:
+  container_name: spylt_web_hook_consul
+  image: consul
+  ports:
+    - "8405:8400"
+    - "8505:8500"
+    - "8605:8600"
+  command: agent -client=0.0.0.0 -node=spylt_web_hook -ui -join 10.0.3.120
+
+service-admin:
+  image: service-admin:0.0.1-SNAPSHOT
+  container_name: service_admin
+  ports:
+    - "5011:5011"
+  links:
+    - "service_admin_consul"
+
+public-gateway:
+  container_name: public_gateway
+  image: public-gateway:0.0.1-SNAPSHOT
+  ports:
+    - "9000:9000"
+  links:
+    - "public_gateway_consul"
+    - "zipkin"
+
+cache_service:
+  container_name: cache_service
+  image: cache-service:0.0.1-SNAPSHOT
+  ports:
+    - "9001:9001"
+  links:
+    - "cache_service_consul"
+    - "zipkin"
+    - "db:redis"
+
+parameter_service:
+  container_name: parameter_service
+  image: parameter-service:0.0.1-SNAPSHOT
+  ports:
+    - "9002:9002"
+  links:
+    - "parameter_service_consul"
+    - "zipkin"
+
+spylt_web_hook:
+  container_name: spylt_web_hook
+  image: splyt-web-hook:0.0.1-SNAPSHOT
+  ports:
+    - "9003:9003"
+  links:
+    - "spylt_web_hook_consul"
+    - "zipkin"
+
+
